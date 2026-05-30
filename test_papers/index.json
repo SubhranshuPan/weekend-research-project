@@ -8,13 +8,11 @@
   },
   "is": {
     "deep_learning.txt": 1,
-    "machine_learning.txt": 1,
-    "test_doc.md": 1
+    "machine_learning.txt": 1
   },
   "a": {
     "deep_learning.txt": 1,
-    "machine_learning.txt": 1,
-    "test_doc.md": 1
+    "machine_learning.txt": 1
   },
   "subset": {
     "deep_learning.txt": 1,
@@ -127,17 +125,5 @@
   },
   "experience": {
     "machine_learning.txt": 1
-  },
-  "test": {
-    "test_doc.md": 2
-  },
-  "markdown": {
-    "test_doc.md": 2
-  },
-  "this": {
-    "test_doc.md": 1
-  },
-  "file": {
-    "test_doc.md": 1
   }
 }
