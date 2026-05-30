@@ -1,0 +1,71 @@
+# Research Assistant Project Context Summary
+
+## Project Overview
+The Research Assistant is a tool to help researchers search and analyze a collection of academic papers. It provides indexing and search capabilities for text-based documents.
+
+## File Structure
+See memory/file_structure.txt for complete listing
+
+Key directories:
+- research_assistant/: Main package containing cli.py, indexer.py, searcher.py
+- test_papers/: Sample documents for testing
+- memory/: Created for context preservation
+- .claude/: Claude Code configuration
+
+## Component Summaries
+
+### research_assistant/__init__.py
+Empty package initializer.
+
+### research_assistant/cli.py
+Command-line interface using argparse with two subcommands:
+- `index`: Indexes documents from a directory (supports .txt, .pdf, .docx, .md)
+- `search`: Searches the index using BM25 ranking algorithm
+
+### research_assistant/indexer.py
+Responsible for extracting text from files and building an inverted index:
+- Supports .txt, .pdf (requires PyPDF2), .docx (requires python-docx), .md files
+- Tokenization: lowercase, regex word boundary splitting, stopword removal (NLTK), Porter stemming (NLTK)
+- Builds inverted index: term -> {doc_id: frequency}
+- Saves index to index.json in the target directory
+
+### research_assistant/searcher.py
+Handles loading the index and performing searches:
+- Loads index.json and computes document statistics (lengths, average length)
+- Implements BM25 ranking algorithm for search relevance
+- Tokenization matches indexer's approach (stopwords, stemming)
+- Returns ranked list of (document_id, score) tuples
+
+## Dependencies (requirements.txt)
+- PyPDF2>=3.0.0: PDF text extraction
+- nltk>=3.8: Natural Language Toolkit for stopwords and stemming
+
+## Configuration (.claude/settings.local.json)
+Contains PowerShell permission allowances for:
+- Running foundation_test.py
+- Testing search functionality
+- Verifying imports and module loading
+- Running the indexer and CLI commands
+- Executing research assistant skill driver
+
+## Test Papers Content
+See memory/test_papers_content.txt for full content
+
+Current index (index.json) contains terms from:
+- deep_learning.txt: About deep learning, neural networks, applications
+- machine_learning.txt: About machine learning, AI, learning from data
+- test_doc.md: Test markdown file (referenced in index but not visible in file listing)
+
+## Current State
+1. The project is functional and can index and search documents
+2. NLTK dependencies are optionally used (graceful fallback if not available)
+3. The indexer has been run on test_papers directory (evidenced by index.json)
+4. Search functionality uses BM25 ranking for better relevance
+5. Code includes error handling for missing dependencies
+
+## Relationships Between Components
+1. cli.py -> indexer.py: Uses Indexer class for indexing command
+2. cli.py -> searcher.py: Uses Searcher class for search command
+3. indexer.py and searcher.py share similar tokenization logic
+4. Both modules optionally use NLTK for enhanced text processing
+5. Indexer creates index.json that Searcher loads for querying
