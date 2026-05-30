@@ -14,6 +14,7 @@ def main():
 
     # Search command
     search_parser = subparsers.add_parser('search', help='Search the index')
+    search_parser.add_argument('--dir', required=True, help='Directory containing the index')
     search_parser.add_argument('--query', required=True, help='Search query')
     search_parser.add_argument('--limit', type=int, default=10, help='Maximum results to return')
 
@@ -25,6 +26,7 @@ def main():
         print(f'Indexed documents from {args.dir}')
     elif args.command == 'search':
         searcher = Searcher()
+        searcher.load_index(args.dir)
         results = searcher.search(args.query, args.limit)
         for i, (doc, score) in enumerate(results, 1):
             print(f'{i}. {doc} (score: {score:.2f})')

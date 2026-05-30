@@ -3,14 +3,40 @@ import json
 import re
 from typing import Dict, List, Tuple
 try:
+    # pyrefly: ignore [missing-import]
     import PyPDF2
     HAS_PDF = True
 except ImportError:
     HAS_PDF = False
 
+try:
+    # pyrefly: ignore [missing-import]
+    import nltk
+    # pyrefly: ignore [missing-import]
+    from nltk.corpus import stopwords
+    # pyrefly: ignore [missing-import]
+    from nltk.stem import PorterStemmer
+    HAS_NLTK = True
+    # Download required NLTK data
+    try:
+        stopwords.words('english')
+    except LookupError:
+        nltk.download('stopwords')
+except ImportError:
+    HAS_NLTK = False
+
+try:
+    # pyrefly: ignore [missing-import]
+    import docx
+    HAS_DOCX = True
+except ImportError:
+    HAS_DOCX = False
+
 class Indexer:
     def __init__(self):
         self.index: Dict[str, Dict[str, int]] = {}  # term -> {doc_id: frequency}
+        self.stemmer = PorterStemmer() if HAS_NLTK else None
+        self.stop_words = set(stopwords.words('english')) if HAS_NLTK else set()
 
     def _extract_text(self, file_path: str) -> str:
         """Extract text from a file based on extension."""
@@ -24,13 +50,36 @@ class Indexer:
                 for page in pdf_reader.pages:
                     text += page.extract_text() or ""
             return text
+        elif file_path.lower().endswith('.docx') and HAS_DOCX:
+            text = ""
+            try:
+                doc = docx.Document(file_path)
+                for paragraph in doc.paragraphs:
+                    text += paragraph.text + "\n"
+            except Exception:
+                # If any error occurs reading the docx, return empty string
+                return ""
+            return text
+        elif file_path.lower().endswith('.md') or file_path.lower().endswith('.markdown'):
+            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                return f.read()
         else:
-            # Unsupported format or PDF without PyPDF2
+            # Unsupported format or missing dependencies
             return ""
 
     def _tokenize(self, text: str) -> List[str]:
-        """Simple tokenization: lowercase and split by non-alphanumeric."""
+        """Tokenize text: lowercase, split by non-alphanumeric, remove stopwords, stem."""
+        # Basic tokenization
         tokens = re.findall(r'\b\w+\b', text.lower())
+
+        # Remove stopwords if NLTK is available
+        if HAS_NLTK:
+            tokens = [token for token in tokens if token not in self.stop_words]
+
+        # Apply stemming if NLTK is available
+        if HAS_NLTK and self.stemmer:
+            tokens = [self.stemmer.stem(token) for token in tokens]
+
         return tokens
 
     def index_directory(self, directory: str, extensions: List[str]) -> None:

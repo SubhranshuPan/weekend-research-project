@@ -1,0 +1,143 @@
+{
+  "deep": {
+    "deep_learning.txt": 1
+  },
+  "learning": {
+    "deep_learning.txt": 2,
+    "machine_learning.txt": 1
+  },
+  "is": {
+    "deep_learning.txt": 1,
+    "machine_learning.txt": 1,
+    "test_doc.md": 1
+  },
+  "a": {
+    "deep_learning.txt": 1,
+    "machine_learning.txt": 1,
+    "test_doc.md": 1
+  },
+  "subset": {
+    "deep_learning.txt": 1,
+    "machine_learning.txt": 1
+  },
+  "of": {
+    "deep_learning.txt": 1,
+    "machine_learning.txt": 1
+  },
+  "machine": {
+    "deep_learning.txt": 1,
+    "machine_learning.txt": 1
+  },
+  "that": {
+    "deep_learning.txt": 1,
+    "machine_learning.txt": 2
+  },
+  "uses": {
+    "deep_learning.txt": 1
+  },
+  "neural": {
+    "deep_learning.txt": 1
+  },
+  "networks": {
+    "deep_learning.txt": 1
+  },
+  "with": {
+    "deep_learning.txt": 1
+  },
+  "many": {
+    "deep_learning.txt": 1
+  },
+  "layers": {
+    "deep_learning.txt": 1
+  },
+  "it": {
+    "deep_learning.txt": 1
+  },
+  "has": {
+    "deep_learning.txt": 1
+  },
+  "revolutionized": {
+    "deep_learning.txt": 1
+  },
+  "fields": {
+    "deep_learning.txt": 1
+  },
+  "such": {
+    "deep_learning.txt": 1
+  },
+  "as": {
+    "deep_learning.txt": 1
+  },
+  "computer": {
+    "deep_learning.txt": 1
+  },
+  "vision": {
+    "deep_learning.txt": 1
+  },
+  "and": {
+    "deep_learning.txt": 1
+  },
+  "natural": {
+    "deep_learning.txt": 1
+  },
+  "language": {
+    "deep_learning.txt": 1
+  },
+  "processing": {
+    "deep_learning.txt": 1
+  },
+  "artificial": {
+    "machine_learning.txt": 1
+  },
+  "intelligence": {
+    "machine_learning.txt": 1
+  },
+  "focuses": {
+    "machine_learning.txt": 1
+  },
+  "on": {
+    "machine_learning.txt": 1
+  },
+  "building": {
+    "machine_learning.txt": 1
+  },
+  "systems": {
+    "machine_learning.txt": 1
+  },
+  "learn": {
+    "machine_learning.txt": 1
+  },
+  "from": {
+    "machine_learning.txt": 1
+  },
+  "data": {
+    "machine_learning.txt": 1
+  },
+  "algorithms": {
+    "machine_learning.txt": 1
+  },
+  "improve": {
+    "machine_learning.txt": 1
+  },
+  "automatically": {
+    "machine_learning.txt": 1
+  },
+  "through": {
+    "machine_learning.txt": 1
+  },
+  "experience": {
+    "machine_learning.txt": 1
+  },
+  "test": {
+    "test_doc.md": 2
+  },
+  "markdown": {
+    "test_doc.md": 2
+  },
+  "this": {
+    "test_doc.md": 1
+  },
+  "file": {
+    "test_doc.md": 1
+  }
+}

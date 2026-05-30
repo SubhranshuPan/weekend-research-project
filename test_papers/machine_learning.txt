@@ -1,0 +1,1 @@
+﻿Machine learning is a subset of artificial intelligence that focuses on building systems that learn from data. Algorithms improve automatically through experience.

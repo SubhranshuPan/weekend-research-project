@@ -1,0 +1,97 @@
+{
+  "deep": {
+    "deep_learning.txt": 1
+  },
+  "learn": {
+    "deep_learning.txt": 2,
+    "machine_learning.txt": 2
+  },
+  "subset": {
+    "deep_learning.txt": 1,
+    "machine_learning.txt": 1
+  },
+  "machin": {
+    "deep_learning.txt": 1,
+    "machine_learning.txt": 1
+  },
+  "use": {
+    "deep_learning.txt": 1
+  },
+  "neural": {
+    "deep_learning.txt": 1
+  },
+  "network": {
+    "deep_learning.txt": 1
+  },
+  "mani": {
+    "deep_learning.txt": 1
+  },
+  "layer": {
+    "deep_learning.txt": 1
+  },
+  "revolution": {
+    "deep_learning.txt": 1
+  },
+  "field": {
+    "deep_learning.txt": 1
+  },
+  "comput": {
+    "deep_learning.txt": 1
+  },
+  "vision": {
+    "deep_learning.txt": 1
+  },
+  "natur": {
+    "deep_learning.txt": 1
+  },
+  "languag": {
+    "deep_learning.txt": 1
+  },
+  "process": {
+    "deep_learning.txt": 1
+  },
+  "artifici": {
+    "machine_learning.txt": 1
+  },
+  "intellig": {
+    "machine_learning.txt": 1
+  },
+  "focus": {
+    "machine_learning.txt": 1
+  },
+  "build": {
+    "machine_learning.txt": 1
+  },
+  "system": {
+    "machine_learning.txt": 1
+  },
+  "data": {
+    "machine_learning.txt": 1
+  },
+  "algorithm": {
+    "machine_learning.txt": 1
+  },
+  "improv": {
+    "machine_learning.txt": 1
+  },
+  "automat": {
+    "machine_learning.txt": 1
+  },
+  "experi": {
+    "machine_learning.txt": 1
+  },
+  "test": {
+    "test_doc.docx": 1,
+    "test_doc.md": 2
+  },
+  "docx": {
+    "test_doc.docx": 1
+  },
+  "file": {
+    "test_doc.docx": 1,
+    "test_doc.md": 1
+  },
+  "markdown": {
+    "test_doc.md": 2
+  }
+}

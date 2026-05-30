@@ -1,0 +1,1 @@
+﻿Deep learning is a subset of machine learning that uses neural networks with many layers. It has revolutionized fields such as computer vision and natural language processing.

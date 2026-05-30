@@ -1,0 +1,5 @@
+deep_learning.txt:
+Deep learning is a subset of machine learning that uses neural networks with many layers. It has revolutionized fields such as computer vision and natural language processing.
+
+machine_learning.txt:
+Machine learning is a subset of artificial intelligence that focuses on building systems that learn from data. Algorithms improve automatically through experience.
