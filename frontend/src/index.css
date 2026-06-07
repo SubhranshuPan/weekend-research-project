@@ -42,7 +42,9 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
+  gap: 2rem;
+  flex-wrap: wrap;
 }
 
 .brand {
@@ -54,6 +56,39 @@ header {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+/* Nav Tabs */
+.nav-tabs {
+  display: flex;
+  background: rgba(30, 41, 59, 0.6);
+  padding: 0.3rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.nav-tab {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-tab:hover {
+  color: var(--text-primary);
+}
+
+.nav-tab.active {
+  background: var(--accent-gradient);
+  color: white;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 /* Glassmorphism utility */
@@ -138,6 +173,25 @@ header {
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
+.icon-button {
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-button:hover {
+  background: rgba(59, 130, 246, 0.2);
+  color: var(--accent-hover);
+  border-color: var(--accent-color);
+}
+
 /* Grid Layout */
 .main-content {
   display: grid;
@@ -147,7 +201,7 @@ header {
 
 @media (min-width: 768px) {
   .main-content {
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 3fr 2fr;
   }
 }
 
@@ -277,4 +331,57 @@ header {
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+/* Chat Styles */
+.chat-messages {
+  flex: 1;
+  min-height: 400px;
+  max-height: calc(100vh - 250px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-right: 10px;
+}
+
+.chat-message {
+  padding: 1rem;
+  border-radius: 12px;
+  max-width: 85%;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.chat-message.user {
+  background: rgba(59, 130, 246, 0.15);
+  align-self: flex-end;
+  border-bottom-right-radius: 2px;
+}
+
+.chat-message.ai {
+  background: rgba(30, 41, 59, 0.8);
+  align-self: flex-start;
+  border-bottom-left-radius: 2px;
+  border: 1px solid var(--border-color);
+}
+
+.chat-input-container {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.chat-input {
+  flex: 1;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+}
+
+.chat-input:focus {
+  outline: none;
+  border-color: var(--accent-color);
 }
