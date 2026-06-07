@@ -49,6 +49,8 @@ VITE_API_URL=https://your-render-service.onrender.com/api
 - On Render, set `CORS_ORIGINS` to your frontend URL and `GEMINI_API_KEY` if you want semantic search without installing `sentence-transformers`.
 - This first deployment still uses backend disk storage. The included Render config mounts `/app/papers`; use S3/Postgres/vector storage next if you need durable multi-instance production storage.
 
+For step-by-step production deployment from the `prod` branch, see `DEPLOYMENT.md`.
+
 ## CLI Usage
 
 ```bash
