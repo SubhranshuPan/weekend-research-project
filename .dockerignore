@@ -1,0 +1,9 @@
+.git
+.claude
+frontend/node_modules
+frontend/dist
+papers
+test_papers
+memory
+__pycache__
+*.pyc

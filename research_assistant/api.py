@@ -19,15 +19,21 @@ from .semantic_searcher import SemanticSearcher
 
 app = FastAPI(title="Research Assistant API")
 
+cors_origins = [
+    origin.strip()
+    for origin in os.getenv("CORS_ORIGINS", "*").split(",")
+    if origin.strip()
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=cors_origins,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-PAPERS_DIR = "papers"
+PAPERS_DIR = os.getenv("PAPERS_DIR", "papers")
 os.makedirs(PAPERS_DIR, exist_ok=True)
 
 # Mount papers directory for serving files directly

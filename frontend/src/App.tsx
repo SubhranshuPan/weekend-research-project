@@ -1,44 +1,82 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Search, UploadCloud, FileText, BookOpen, Clock, Loader2, FileUp, X, Copy, Check, Trash2, Settings, MessageSquare, Send, Globe, DownloadCloud, Network, Edit3 } from 'lucide-react';
+import { useState, useEffect, useRef, type ChangeEvent, type DragEvent, type FormEvent, type MouseEvent } from 'react';
+import { Search, UploadCloud, FileText, BookOpen, Loader2, FileUp, X, Copy, Check, Trash2, Settings, MessageSquare, Send, Globe, DownloadCloud, Network, Edit3 } from 'lucide-react';
 import axios from 'axios';
 import ForceGraph2D from 'react-force-graph-2d';
 
-const API_URL = 'http://localhost:8000/api';
+const API_URL = (import.meta.env.VITE_API_URL ?? 'http://localhost:8000/api').replace(/\/$/, '');
+
+type Paper = {
+  id: string;
+  filename: string;
+  path?: string;
+  score?: number;
+};
+
+type DiscoverPaper = {
+  title: string;
+  authors: string[];
+  summary: string;
+  pdf_url: string;
+  published: string;
+};
+
+type GraphData = {
+  nodes: Array<Record<string, any>>;
+  links: Array<Record<string, any>>;
+};
+
+type ModalType = 'details' | 'summary' | 'settings' | 'cite' | null;
+
+type PaperMetadata = {
+  metadata?: {
+    title?: string;
+    authors?: string;
+    year?: string;
+  };
+  bibtex?: string;
+  error?: string;
+} | null;
+
+type ChatMessage = {
+  role: 'user' | 'ai';
+  text: string;
+  sources?: string[];
+};
 
 function App() {
-  const [currentTab, setCurrentTab] = useState('library'); // 'library' | 'discover' | 'graph' | 'notebook'
+  const [currentTab, setCurrentTab] = useState<'library' | 'discover' | 'graph' | 'notebook'>('library');
   
   // Library state
   const [query, setQuery] = useState('');
-  const [results, setResults] = useState([]);
-  const [papers, setPapers] = useState([]);
+  const [results, setResults] = useState<Paper[]>([]);
+  const [papers, setPapers] = useState<Paper[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
 
   // Tags & Folders
-  const [tags, setTags] = useState({});
-  const [folders, setFolders] = useState({});
-  const [selectedFolder, setSelectedFolder] = useState(null);
-  const [isTagging, setIsTagging] = useState({});
+  const [tags, setTags] = useState<Record<string, string[]>>({});
+  const [folders, setFolders] = useState<Record<string, string[]>>({});
+  const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
+  const [isTagging, setIsTagging] = useState<Record<string, boolean>>({});
 
   // Discover state
   const [discoverQuery, setDiscoverQuery] = useState('');
-  const [discoverResults, setDiscoverResults] = useState([]);
+  const [discoverResults, setDiscoverResults] = useState<DiscoverPaper[]>([]);
   const [isDiscovering, setIsDiscovering] = useState(false);
-  const [downloadingUrl, setDownloadingUrl] = useState(null);
+  const [downloadingUrl, setDownloadingUrl] = useState<string | null>(null);
   
   // Notebook state
   const [notebookText, setNotebookText] = useState('# My Research Draft\n\nStart writing here...\n');
   
   // Graph state
-  const [graphData, setGraphData] = useState({ nodes: [], links: [] });
+  const [graphData, setGraphData] = useState<GraphData>({ nodes: [], links: [] });
 
   // Modals state
-  const [selectedPaper, setSelectedPaper] = useState(null);
-  const [modalType, setModalType] = useState(null); // 'details', 'summary', 'settings', 'cite'
-  const [metadata, setMetadata] = useState(null);
-  const [summary, setSummary] = useState(null);
+  const [selectedPaper, setSelectedPaper] = useState<Paper | null>(null);
+  const [modalType, setModalType] = useState<ModalType>(null);
+  const [metadata, setMetadata] = useState<PaperMetadata>(null);
+  const [summary, setSummary] = useState<string | null>(null);
   const [isLoadingModal, setIsLoadingModal] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -46,12 +84,12 @@ function App() {
   const [geminiApiKey, setGeminiApiKey] = useState('');
   
   // Chat state
-  const [chatMessages, setChatMessages] = useState([]);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [chatInput, setChatInput] = useState('');
   const [isChatting, setIsChatting] = useState(false);
 
-  const fileInputRef = useRef(null);
-  const chatEndRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const chatEndRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     fetchPapers();
@@ -112,7 +150,7 @@ function App() {
     }
   };
 
-  const searchPapers = async (q) => {
+  const searchPapers = async (q: string) => {
     setIsSearching(true);
     try {
       const res = await axios.get(`${API_URL}/search?q=${encodeURIComponent(q)}&limit=20`);
@@ -124,7 +162,7 @@ function App() {
     }
   };
 
-  const autoTag = async (paper) => {
+  const autoTag = async (paper: Paper) => {
     if (!geminiApiKey) {
       alert("Please configure your Gemini API Key in Settings to use Auto-Tagging.");
       setModalType('settings');
@@ -144,7 +182,7 @@ function App() {
     }
   };
 
-  const searchDiscover = async (e) => {
+  const searchDiscover = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!discoverQuery) return;
     setIsDiscovering(true);
@@ -158,7 +196,7 @@ function App() {
     }
   };
 
-  const downloadPaper = async (paper) => {
+  const downloadPaper = async (paper: DiscoverPaper) => {
     setDownloadingUrl(paper.pdf_url);
     try {
       await axios.post(`${API_URL}/discover/download`, {
@@ -175,7 +213,7 @@ function App() {
     }
   };
 
-  const handleDrag = (e) => {
+  const handleDrag = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     if (e.type === 'dragenter' || e.type === 'dragover') {
@@ -185,7 +223,7 @@ function App() {
     }
   };
 
-  const handleDrop = async (e) => {
+  const handleDrop = async (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
@@ -195,13 +233,13 @@ function App() {
     }
   };
 
-  const handleFileChange = async (e) => {
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       await uploadFiles(e.target.files);
     }
   };
 
-  const uploadFiles = async (files) => {
+  const uploadFiles = async (files: FileList) => {
     setIsUploading(true);
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
@@ -221,7 +259,7 @@ function App() {
     }
   };
 
-  const deletePaper = async (paperId, e) => {
+  const deletePaper = async (paperId: string, e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     if (!confirm(`Are you sure you want to delete ${paperId}?`)) return;
     try {
@@ -235,7 +273,7 @@ function App() {
     }
   };
 
-  const openDetails = async (paper) => {
+  const openDetails = async (paper: Paper) => {
     setSelectedPaper(paper);
     setModalType('details');
     setIsLoadingModal(true);
@@ -250,7 +288,7 @@ function App() {
     }
   };
 
-  const openSummary = async (paper) => {
+  const openSummary = async (paper: Paper) => {
     setSelectedPaper(paper);
     setModalType('summary');
     setIsLoadingModal(true);
@@ -259,7 +297,7 @@ function App() {
         headers: { 'x-gemini-key': geminiApiKey }
       });
       setSummary(res.data.summary);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
       if (err.response?.status === 401 || err.response?.status === 500) {
         setSummary("Error: " + (err.response?.data?.detail || "Failed to generate summary."));
@@ -284,7 +322,7 @@ function App() {
     closeModal();
   };
 
-  const insertCitation = async (paper) => {
+  const insertCitation = async (paper: Paper) => {
     setIsLoadingModal(true);
     try {
       const res = await axios.get(`${API_URL}/papers/${paper.id}/metadata`);
@@ -308,7 +346,7 @@ function App() {
       return;
     }
 
-    const newMsgs = [...chatMessages, { role: 'user', text: chatInput }];
+    const newMsgs: ChatMessage[] = [...chatMessages, { role: 'user', text: chatInput }];
     setChatMessages(newMsgs);
     setChatInput('');
     setIsChatting(true);
@@ -319,7 +357,7 @@ function App() {
       });
       
       setChatMessages([...newMsgs, { role: 'ai', text: res.data.answer, sources: res.data.sources }]);
-    } catch (err) {
+    } catch (err: any) {
       setChatMessages([...newMsgs, { role: 'ai', text: "Error: " + (err.response?.data?.detail || "Failed to get response.") }]);
     } finally {
       setIsChatting(false);
@@ -620,9 +658,12 @@ function App() {
                     if (paper) openDetails(paper);
                   }}
                   nodeCanvasObject={(node, ctx, globalScale) => {
+                    const x = node.x ?? 0;
+                    const y = node.y ?? 0;
+
                     // Draw the circle
                     ctx.beginPath();
-                    ctx.arc(node.x, node.y, 5, 0, 2 * Math.PI, false);
+                    ctx.arc(x, y, 5, 0, 2 * Math.PI, false);
                     ctx.fillStyle = '#3b82f6';
                     ctx.fill();
 
@@ -636,10 +677,10 @@ function App() {
                     // Optional background for text readability
                     const textWidth = ctx.measureText(label).width;
                     ctx.fillStyle = 'rgba(11, 15, 25, 0.7)';
-                    ctx.fillRect(node.x - textWidth / 2 - 2, node.y + 7, textWidth + 4, fontSize + 2);
+                    ctx.fillRect(x - textWidth / 2 - 2, y + 7, textWidth + 4, fontSize + 2);
                     
                     ctx.fillStyle = '#e2e8f0';
-                    ctx.fillText(label, node.x, node.y + 8);
+                    ctx.fillText(label, x, y + 8);
                   }}
                   width={800}
                   height={600}

@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: research-assistant-api
+    runtime: docker
+    plan: starter
+    envVars:
+      - key: PAPERS_DIR
+        value: /app/papers
+      - key: CORS_ORIGINS
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_EMBEDDING_MODEL
+        value: text-embedding-004
+    disks:
+      - name: papers
+        mountPath: /app/papers
+        sizeGB: 1
