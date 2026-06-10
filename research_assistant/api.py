@@ -393,7 +393,15 @@ def download_paper(req: DownloadRequest):
         
         pdf_url = req.pdf_url.replace('/abs/', '/pdf/')
         
-        with urllib.request.urlopen(pdf_url, context=ctx) as response, open(file_path, 'wb') as out_file:
+        # Add User-Agent to bypass arXiv scraping blocks
+        request = urllib.request.Request(
+            pdf_url,
+            headers={
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            }
+        )
+        
+        with urllib.request.urlopen(request, context=ctx) as response, open(file_path, 'wb') as out_file:
             shutil.copyfileobj(response, out_file)
         
         # Re-index library

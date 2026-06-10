@@ -47,13 +47,20 @@ class SemanticSearcher:
         if self.client:
             vectors = []
             for text in texts:
-                result = self.client.models.embed_content(
-                    model=self.embedding_model,
-                    contents=text,
-                )
-                embedding = result.embeddings[0]
-                values = embedding["values"] if isinstance(embedding, dict) else embedding.values
-                vectors.append(values)
+                # Truncate text to avoid exceeding the token limit of the embedding model
+                truncated = text[:8000]
+                try:
+                    result = self.client.models.embed_content(
+                        model=self.embedding_model,
+                        contents=truncated,
+                    )
+                    embedding = result.embeddings[0]
+                    values = embedding["values"] if isinstance(embedding, dict) else embedding.values
+                    vectors.append(values)
+                except Exception as e:
+                    print(f"Embedding failed: {e}")
+                    # Fallback zero vector if a single document fails
+                    vectors.append([0.0]*768)
             return np.array(vectors, dtype=float)
 
         if HAS_ST and self.model is not None:
