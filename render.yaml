@@ -2,7 +2,7 @@ services:
   - type: web
     name: research-assistant-api
     runtime: docker
-    plan: starter
+    plan: free
     envVars:
       - key: PAPERS_DIR
         value: /app/papers
@@ -12,7 +12,3 @@ services:
         sync: false
       - key: GEMINI_EMBEDDING_MODEL
         value: text-embedding-004
-    disks:
-      - name: papers
-        mountPath: /app/papers
-        sizeGB: 1

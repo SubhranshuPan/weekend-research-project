@@ -3,7 +3,7 @@ import { Search, UploadCloud, FileText, BookOpen, Loader2, FileUp, X, Copy, Chec
 import axios from 'axios';
 import ForceGraph2D from 'react-force-graph-2d';
 
-const API_URL = (import.meta.env.VITE_API_URL ?? 'http://localhost:8000/api').replace(/\/$/, '');
+const API_URL = (import.meta.env.VITE_API_URL ?? 'http://127.0.0.1:8000/api').replace(/\/$/, '');
 
 type Paper = {
   id: string;
